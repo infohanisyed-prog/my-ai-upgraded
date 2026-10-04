@@ -1,0 +1,2668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My AI </title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+<style>
+
+    /* ============================================================
+       BLUE LOGIN / SIGNUP PAGE
+    ============================================================ */
+
+    .auth-overlay {
+        background:
+            linear-gradient(
+                135deg,
+                #0d6efd 0%,
+                #2563eb 50%,
+                #1d4ed8 100%
+            ) !important;
+    }
+
+    .auth-shell {
+        background: transparent !important;
+    }
+
+    .auth-panel {
+        background: rgba(255, 255, 255, 0.97) !important;
+        border: none !important;
+        box-shadow:
+            0 25px 70px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    .auth-panel-inner {
+        background: transparent !important;
+    }
+
+
+    /* ============================================================
+       WELCOME SCREEN — FORCE VISIBLE
+    ============================================================ */
+
+    #chatArea {
+        position: relative !important;
+    }
+
+    #welcome,
+    .welcome {
+        width: 100% !important;
+        min-height: 100% !important;
+
+        display: flex !important;
+        flex-direction: column !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        visibility: visible !important;
+        opacity: 1 !important;
+
+        background: transparent !important;
+
+        position: relative !important;
+        z-index: 5 !important;
+
+        box-sizing: border-box !important;
+    }
+
+
+    /* ============================================================
+       ASK ME ANYTHING
+    ============================================================ */
+
+    #welcome .welcome-prompt,
+    .welcome .welcome-prompt {
+
+        display: block !important;
+
+        width: 100% !important;
+
+        margin: 0 0 28px 0 !important;
+        padding: 0 !important;
+
+        background: transparent !important;
+
+        color: #ffffff !important;
+
+        font-size: clamp(25px, 3vw, 34px) !important;
+
+        font-weight: 600 !important;
+
+        line-height: 1.3 !important;
+
+        text-align: center !important;
+
+        visibility: visible !important;
+        opacity: 1 !important;
+
+        position: relative !important;
+        z-index: 6 !important;
+    }
+
+
+    /* ============================================================
+       SUGGESTIONS CONTAINER
+    ============================================================ */
+
+    #welcome .suggestions,
+    .welcome .suggestions {
+
+        width: min(760px, 92%) !important;
+
+        display: grid !important;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+
+        gap: 15px !important;
+
+        margin: 0 auto !important;
+        padding: 0 !important;
+
+        visibility: visible !important;
+        opacity: 1 !important;
+
+        position: relative !important;
+        z-index: 10 !important;
+
+        box-sizing: border-box !important;
+    }
+
+
+    /* ============================================================
+       SUGGESTION CARDS
+    ============================================================ */
+
+    #welcome .suggestion-card,
+    .welcome .suggestion-card {
+
+        width: 100% !important;
+
+        min-height: 76px !important;
+
+        box-sizing: border-box !important;
+
+        padding: 16px 18px !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+
+        gap: 14px !important;
+
+        border: 2px solid
+            rgba(148, 163, 184, 0.42) !important;
+
+        border-radius: 17px !important;
+
+        background:
+            rgba(255, 255, 255, 0.025) !important;
+
+        color: #ffffff !important;
+
+        cursor: pointer !important;
+
+        text-align: left !important;
+
+        font-size: 14px !important;
+
+        font-weight: 500 !important;
+
+        line-height: 1.4 !important;
+
+        visibility: visible !important;
+        opacity: 1 !important;
+
+        position: relative !important;
+        z-index: 11 !important;
+
+        overflow: hidden !important;
+
+        transition:
+            border-color 0.2s ease,
+            background 0.2s ease,
+            transform 0.2s ease,
+            box-shadow 0.2s ease !important;
+    }
+
+
+    /* ============================================================
+       CARD HOVER
+    ============================================================ */
+
+    #welcome .suggestion-card:hover,
+    .welcome .suggestion-card:hover {
+
+        border-color: #3b82f6 !important;
+
+        background:
+            rgba(37, 99, 235, 0.10) !important;
+
+        transform: translateY(-2px) !important;
+
+        box-shadow:
+            0 8px 25px
+            rgba(37, 99, 235, 0.14) !important;
+    }
+
+
+    /* ============================================================
+       CARD ACTIVE
+    ============================================================ */
+
+    #welcome .suggestion-card:active,
+    .welcome .suggestion-card:active {
+
+        transform: translateY(0) !important;
+    }
+
+
+    /* ============================================================
+       ICON
+    ============================================================ */
+
+    #welcome .suggestion-icon,
+    .welcome .suggestion-icon {
+
+        width: 42px !important;
+        height: 42px !important;
+
+        min-width: 42px !important;
+
+        display: flex !important;
+
+        align-items: center !important;
+        justify-content: center !important;
+
+        border-radius: 12px !important;
+
+        background:
+            rgba(37, 99, 235, 0.13) !important;
+
+        font-size: 21px !important;
+
+        line-height: 1 !important;
+
+        flex-shrink: 0 !important;
+    }
+
+
+    /* ============================================================
+       TEXT INSIDE CARD
+    ============================================================ */
+
+    #welcome .suggestion-card > span:last-child,
+    .welcome .suggestion-card > span:last-child {
+
+        display: block !important;
+
+        flex: 1 !important;
+
+        color: #ffffff !important;
+
+        text-align: left !important;
+
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+
+
+    /* ============================================================
+       DARK MODE
+    ============================================================ */
+
+    body.dark-mode #welcome .suggestion-card,
+    body.dark-mode .welcome .suggestion-card {
+
+        background:
+            rgba(255, 255, 255, 0.035) !important;
+
+        border-color:
+            rgba(148, 163, 184, 0.38) !important;
+
+        color: #ffffff !important;
+    }
+
+    body.dark-mode #welcome .suggestion-card:hover,
+    body.dark-mode .welcome .suggestion-card:hover {
+
+        border-color: #3b82f6 !important;
+
+        background:
+            rgba(59, 130, 246, 0.10) !important;
+    }
+
+    body.dark-mode #welcome .suggestion-icon,
+    body.dark-mode .welcome .suggestion-icon {
+
+        background:
+            rgba(59, 130, 246, 0.15) !important;
+    }
+
+
+    /* ============================================================
+       MOBILE
+    ============================================================ */
+
+    @media (max-width: 650px) {
+
+        #welcome .suggestions,
+        .welcome .suggestions {
+
+            width: 92% !important;
+
+            grid-template-columns:
+                1fr !important;
+
+            gap: 12px !important;
+        }
+
+        #welcome .suggestion-card,
+        .welcome .suggestion-card {
+
+            min-height: 68px !important;
+
+            padding: 14px 16px !important;
+        }
+
+        #welcome .welcome-prompt
+        .welcome .welcome-prompt {
+
+            font-size: 25px !important;
+
+            margin-bottom: 24px !important;
+        }
+
+    }
+
+
+    @media (max-width: 700px) {
+
+        #welcome .suggestions,
+        .welcome .suggestions {
+            width: min(94%, 520px) !important;
+            grid-template-columns: 1fr !important;
+        }
+
+        #welcome .welcome-prompt,
+        .welcome .welcome-prompt {
+            margin-bottom: 18px !important;
+        }
+
+    }
+
+
+    /* ============================================================
+       SMALL MOBILE
+    ============================================================ */
+
+    @media (max-width: 400px) {
+
+        #welcome .suggestions,
+        .welcome .suggestions {
+
+            width: 96% !important;
+        }
+
+        #welcome .suggestion-card,
+        .welcome .suggestion-card {
+
+            min-height: 64px !important;
+
+            padding: 12px 14px !important;
+
+            gap: 11px !important;
+        }
+
+        #welcome .suggestion-icon,
+        .welcome .suggestion-icon {
+
+            width: 38px !important;
+            height: 38px !important;
+
+            min-width: 38px !important;
+
+            font-size: 19px !important;
+        }
+
+    }
+
+
+
+    /* ============================================================
+       FINAL WELCOME LAYOUT OVERRIDE
+       Keep Ask me anything + suggestion cards together in center
+    ============================================================ */
+
+    #chatArea #welcome {
+        width: 100% !important;
+        height: 100% !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0 !important;
+        padding: 0 24px 24px !important;
+        box-sizing: border-box !important;
+    }
+
+    #chatArea #welcome .welcome-prompt {
+        width: auto !important;
+        margin: 0 0 20px 0 !important;
+        padding: 0 !important;
+        text-align: center !important;
+        flex: 0 0 auto !important;
+    }
+
+    #chatArea #welcome .suggestions {
+        width: min(760px, 100%) !important;
+        max-width: 760px !important;
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 14px !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        flex: 0 0 auto !important;
+    }
+
+    #chatArea #welcome .suggestion-card {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        width: 100% !important;
+        min-height: 74px !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        box-sizing: border-box !important;
+        padding: 14px 18px !important;
+        margin: 0 !important;
+        position: relative !important;
+        z-index: 20 !important;
+    }
+
+    #chatArea #welcome .suggestion-card::after {
+        content: "→" !important;
+        margin-left: auto !important;
+        padding-left: 12px !important;
+        font-size: 22px !important;
+        line-height: 1 !important;
+        opacity: 0.9 !important;
+    }
+
+    #chatArea #welcome .suggestion-card > span:last-child {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+    }
+
+    @media (max-width: 700px) {
+        #chatArea #welcome {
+            padding: 0 14px 18px !important;
+        }
+
+        #chatArea #welcome .suggestions {
+            width: 100% !important;
+            grid-template-columns: 1fr !important;
+            gap: 11px !important;
+        }
+
+        #chatArea #welcome .welcome-prompt {
+            margin-bottom: 16px !important;
+        }
+    }
+
+</style>
+
+</head>
+<body>
+<!-- ================= AUTH OVERLAY ================= -->
+<div class="auth-overlay" id="authOverlay">
+
+<div class="auth-shell">
+
+    <section class="auth-panel">
+
+        <div class="auth-panel-inner">
+
+            <div class="auth-heading">
+
+                <h2 id="authHeading">
+                    Login
+                </h2>
+
+                <p id="authHeadingText">
+                    Welcome back
+                </p>
+
+            </div>
+
+
+            <div class="auth-tabs">
+
+                <button
+                    type="button"
+                    class="auth-tab active"
+                    id="loginTab"
+                    onclick="showAuthMode('login')">
+
+                    Login
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="auth-tab"
+                    id="signupTab"
+                    onclick="showAuthMode('signup')">
+
+                    Sign Up
+
+                </button>
+
+            </div>
+
+
+            <form
+                id="authForm"
+                onsubmit="submitAuth(event)">
+
+                <label for="authUsername">
+                    Username or Email
+                </label>
+
+                <input
+                    id="authUsername"
+                    type="text"
+                    autocomplete="username"
+                    placeholder="Enter your username or email"
+                    maxlength="100"
+                    required>
+
+
+                <label for="authPassword">
+                    Password
+                </label>
+
+
+                <div class="password-field">
+
+                    <input
+                        id="authPassword"
+                        type="password"
+                        autocomplete="current-password"
+                        placeholder="Enter your password"
+                        minlength="8"
+                        required>
+
+                </div>
+
+
+                <label class="show-password-option">
+
+                    <input
+                        type="checkbox"
+                        id="showPassword"
+                        onchange="togglePasswordVisibility()">
+
+                    <span>
+                        Show Password
+                    </span>
+
+                </label>
+
+
+                <button
+                    class="auth-submit"
+                    id="authSubmit"
+                    type="submit">
+
+                    Login
+
+                </button>
+
+            </form>
+
+
+            <div
+                class="auth-error"
+                id="authError">
+            </div>
+
+
+            <p
+                class="auth-switch-text"
+                id="authSwitchText">
+
+                Don't have an account?
+
+                <button
+                    type="button"
+                    onclick="showAuthMode('signup')">
+
+                    Sign Up
+
+                </button>
+
+            </p>
+
+
+            <p class="auth-note">
+                Your password is stored securely.
+            </p>
+
+        </div>
+
+    </section>
+
+</div>
+
+</div>
+<div class="app" id="app">
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside
+    class="sidebar"
+    id="sidebar">
+
+    <div class="sidebar-header">
+
+        <div class="brand">
+
+            <span class="brand-icon">
+                ✦
+            </span>
+
+            <span>
+                My AI
+            </span>
+
+        </div>
+
+
+        <button
+            class="close-sidebar"
+            onclick="toggleSidebar()"
+            aria-label="Close sidebar">
+
+            ×
+
+        </button>
+
+    </div>
+
+
+    <button
+        class="new-chat-button"
+        onclick="createNewChat()">
+
+        <span class="new-chat-icon">
+            ＋
+        </span>
+
+        <span>
+            New Chat
+        </span>
+
+    </button>
+
+
+    <div class="history-title">
+        Chat History
+    </div>
+
+
+    <div
+        class="chat-list"
+        id="chatList">
+    </div>
+
+
+    <div class="sidebar-bottom">
+
+        <div
+            class="account-box"
+            id="accountBox">
+
+            <div class="account-avatar">
+                👤
+            </div>
+
+
+            <div class="account-info">
+
+                <span class="account-label">
+                    Logged in as
+                </span>
+
+                <strong id="accountUsername">
+                    User
+                </strong>
+
+            </div>
+
+
+            <button
+                class="logout-button"
+                type="button"
+                onclick="logout()"
+                title="Logout">
+
+                ↪
+
+            </button>
+
+        </div>
+
+
+        <button
+            class="clear-history"
+            onclick="clearAllHistory()">
+
+            <span>
+                🗑️
+            </span>
+
+            <span>
+                Clear History
+            </span>
+
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+    <!-- ================= TOP BAR ================= -->
+
+    <header class="topbar">
+
+        <button
+            class="menu-button"
+            onclick="toggleSidebar()"
+            aria-label="Open sidebar">
+
+            ☰
+
+        </button>
+
+
+        <div class="topbar-title">
+
+            <div class="topbar-logo">
+                ✦
+            </div>
+
+
+            <div>
+
+                <strong>
+                    My AI
+                </strong>
+
+                <span>
+                    AI Assistant
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="theme-button"
+            id="themeButton"
+            onclick="toggleTheme()"
+            title="Toggle theme">
+
+            ☾
+
+        </button>
+
+    </header>
+
+
+    <!-- ================= CHAT AREA ================= -->
+
+    <section
+        class="chat-area"
+        id="chatArea">
+
+
+        <div
+            class="welcome"
+            id="welcome">
+
+
+            <p class="welcome-prompt">
+                Ask me anything.
+            </p>
+
+
+            <div
+                class="suggestions"
+                id="suggestions">
+
+
+                <button
+                    class="suggestion-card"
+                    type="button"
+                    onclick="useSuggestion('What is Python?')">
+
+                    <span class="suggestion-icon">
+                        🐍
+                    </span>
+
+                    <span>
+                        What is Python?
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="suggestion-card"
+                    type="button"
+                    onclick="useSuggestion('Learn Networking')">
+
+                    <span class="suggestion-icon">
+                        🌐
+                    </span>
+
+                    <span>
+                        Learn Networking
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="suggestion-card"
+                    type="button"
+                    onclick="useSuggestion('Explain Computer Networks')">
+
+                    <span class="suggestion-icon">
+                        💻
+                    </span>
+
+                    <span>
+                        Explain Computer Networks
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="suggestion-card"
+                    type="button"
+                    onclick="useSuggestion('Help me with programming')">
+
+                    <span class="suggestion-icon">
+                        ⌨️
+                    </span>
+
+                    <span>
+                        Help me with programming
+                    </span>
+
+                </button>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= INPUT ================= -->
+
+    <div class="input-section">
+
+        <div class="input-box">
+
+            <textarea
+                id="messageInput"
+                placeholder="Message My AI..."
+                rows="1"
+                autocomplete="off"
+                aria-label="Message"></textarea>
+
+
+            <button
+                id="micButton"
+                class="mic-button"
+                type="button"
+                onclick="toggleVoiceInput()"
+                aria-label="Voice input"
+                title="Voice input">
+
+                <svg
+                    class="mic-svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+
+                    <rect
+                        x="9"
+                        y="3"
+                        width="6"
+                        height="11"
+                        rx="3"
+                        class="mic-stroke"/>
+
+                    <path
+                        d="M5.5 11.5C5.5 15.09 8.41 18 12 18C15.59 18 18.5 15.09 18.5 11.5"
+                        class="mic-stroke"/>
+
+                    <path
+                        d="M12 18V21"
+                        class="mic-stroke"/>
+
+                    <path
+                        d="M8.5 21H15.5"
+                        class="mic-stroke"/>
+
+                </svg>
+
+                <span class="mic-pulse"></span>
+
+            </button>
+
+
+            <button
+                class="send-button"
+                id="sendButton"
+                onclick="sendMessage()"
+                title="Send message"
+                aria-label="Send message">
+
+                ↑
+
+            </button>
+
+        </div>
+
+
+        <div class="input-hint">
+            My AI can make mistakes. Check important information.
+        </div>
+
+    </div>
+
+</main>
+
+</div>
+<script>
+
+/* ============================================================
+   GLOBAL VARIABLES
+\============================================================ */
+
+let currentChatId = null;
+let isLoading = false;
+let recognition = null;
+let isRecording = false;
+
+
+/* ============================================================
+   ELEMENTS
+\============================================================ */
+
+const chatArea =
+    document.getElementById("chatArea");
+
+const chatList =
+    document.getElementById("chatList");
+
+const input =
+    document.getElementById("messageInput");
+
+const sendButton =
+    document.getElementById("sendButton");
+
+const micButton =
+    document.getElementById("micButton");
+
+const sidebar =
+    document.getElementById("sidebar");
+
+const themeButton =
+    document.getElementById("themeButton");
+
+
+/* ============================================================
+   START
+\============================================================ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    async function () {
+
+        loadTheme();
+
+        setupVoiceRecognition();
+
+        const authenticated =
+            await initAuth();
+
+        if (authenticated) {
+
+            await loadChatHistory();
+
+            autoResize();
+
+            input.focus();
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   AUTHENTICATION
+\============================================================ */
+
+let authMode = "login";
+
+
+async function initAuth() {
+
+    try {
+
+        const response =
+            await fetch("/api/auth/me");
+
+        const data =
+            await response.json();
+
+        if (
+            data.success &&
+            data.authenticated
+        ) {
+
+            showApp(data.user);
+
+            return true;
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Auth check error:",
+            error
+        );
+
+    }
+
+    showAuthOverlay();
+
+    return false;
+
+}
+
+
+function showAuthOverlay() {
+
+    const overlay =
+        document.getElementById("authOverlay");
+
+    const app =
+        document.getElementById("app");
+
+    if (overlay) {
+
+        overlay.classList.remove("hidden");
+
+    }
+
+    if (app) {
+
+        app.classList.add("app-locked");
+
+    }
+
+}
+
+
+function hideAuthOverlay() {
+
+    const overlay =
+        document.getElementById("authOverlay");
+
+    const app =
+        document.getElementById("app");
+
+    if (overlay) {
+
+        overlay.classList.add("hidden");
+
+    }
+
+    if (app) {
+
+        app.classList.remove("app-locked");
+
+    }
+
+}
+
+
+function showApp(user) {
+
+    hideAuthOverlay();
+
+    const username =
+        document.getElementById("accountUsername");
+
+    if (username && user) {
+
+        username.textContent =
+            user.username;
+
+    }
+
+}
+
+
+function showAuthMode(mode) {
+
+    authMode = mode;
+
+    const loginTab =
+        document.getElementById("loginTab");
+
+    const signupTab =
+        document.getElementById("signupTab");
+
+    const submit =
+        document.getElementById("authSubmit");
+
+    const password =
+        document.getElementById("authPassword");
+
+    const error =
+        document.getElementById("authError");
+
+    const heading =
+        document.getElementById("authHeading");
+
+    const headingText =
+        document.getElementById("authHeadingText");
+
+    const switchText =
+        document.getElementById("authSwitchText");
+
+
+    if (loginTab) {
+
+        loginTab.classList.toggle(
+            "active",
+            mode === "login"
+        );
+
+    }
+
+
+    if (signupTab) {
+
+        signupTab.classList.toggle(
+            "active",
+            mode === "signup"
+        );
+
+    }
+
+
+    if (submit) {
+
+        submit.textContent =
+            mode === "login"
+                ? "Login"
+                : "Create Account";
+
+    }
+
+
+    if (heading) {
+
+        heading.textContent =
+            mode === "login"
+                ? "Login"
+                : "Create account";
+
+    }
+
+
+    if (headingText) {
+
+        headingText.textContent =
+            mode === "login"
+                ? "Welcome back"
+                : "Create your My AI account";
+
+    }
+
+
+    if (switchText) {
+
+        switchText.innerHTML =
+            mode === "login"
+
+                ? `Don't have an account? <button type="button" onclick="showAuthMode('signup')">Sign Up</button>`
+
+                : `Already have an account? <button type="button" onclick="showAuthMode('login')">Login</button>`;
+
+    }
+
+
+    if (password) {
+
+        password.autocomplete =
+            mode === "login"
+                ? "current-password"
+                : "new-password";
+
+    }
+
+
+    if (error) {
+
+        error.textContent = "";
+
+    }
+
+}
+
+
+function togglePasswordVisibility() {
+
+    const passwordInput =
+        document.getElementById("authPassword");
+
+    const showPassword =
+        document.getElementById("showPassword");
+
+    if (!passwordInput || !showPassword) {
+        return;
+    }
+
+    passwordInput.type =
+        showPassword.checked
+            ? "text"
+            : "password";
+
+}
+
+
+async function submitAuth(event) {
+
+    event.preventDefault();
+
+    const username =
+        document.getElementById("authUsername").value.trim();
+
+    const password =
+        document.getElementById("authPassword").value;
+
+    const submit =
+        document.getElementById("authSubmit");
+
+    const error =
+        document.getElementById("authError");
+
+    if (!username || !password) {
+        return;
+    }
+
+    submit.disabled = true;
+
+    submit.textContent =
+        authMode === "login"
+            ? "Logging in..."
+            : "Creating account...";
+
+    error.textContent = "";
+
+    try {
+
+        const endpoint =
+            authMode === "login"
+                ? "/api/auth/login"
+                : "/api/auth/signup";
+
+        const response =
+            await fetch(
+                endpoint,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            error.textContent =
+                data.error ||
+                "Authentication failed.";
+
+            return;
+
+        }
+
+        document.getElementById(
+            "authPassword"
+        ).value = "";
+
+        showApp(data.user);
+
+        currentChatId = null;
+
+        clearChatUI();
+
+        await loadChatHistory();
+
+        autoResize();
+
+        input.focus();
+
+    } catch (authError) {
+
+        console.error(
+            "Authentication error:",
+            authError
+        );
+
+        error.textContent =
+            "Could not connect to the server. Please try again.";
+
+    } finally {
+
+        submit.disabled = false;
+
+        submit.textContent =
+            authMode === "login"
+                ? "Login"
+                : "Create Account";
+
+    }
+
+}
+
+
+async function logout() {
+
+    try {
+
+        await fetch(
+            "/api/auth/logout",
+            {
+                method: "POST"
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    }
+
+    currentChatId = null;
+
+    clearChatUI();
+
+    const username =
+        document.getElementById("authUsername");
+
+    const password =
+        document.getElementById("authPassword");
+
+    if (username) {
+        username.value = "";
+    }
+
+    if (password) {
+        password.value = "";
+    }
+
+    showAuthMode("login");
+
+    showAuthOverlay();
+
+}
+
+
+/* ============================================================
+   THEME
+\============================================================ */
+
+function toggleTheme() {
+
+    document.body.classList.toggle(
+        "dark-mode"
+    );
+
+    const isDark =
+        document.body.classList.contains(
+            "dark-mode"
+        );
+
+    localStorage.setItem(
+        "myai-theme",
+        isDark ? "dark" : "light"
+    );
+
+    updateThemeIcon();
+
+}
+
+
+function loadTheme() {
+
+    const savedTheme =
+        localStorage.getItem("myai-theme");
+
+    if (savedTheme !== "light") {
+
+        document.body.classList.add(
+            "dark-mode"
+        );
+
+    }
+
+    updateThemeIcon();
+
+}
+
+
+function updateThemeIcon() {
+
+    const isDark =
+        document.body.classList.contains(
+            "dark-mode"
+        );
+
+    themeButton.textContent =
+        isDark ? "☀" : "☾";
+
+}
+
+
+/* ============================================================
+   SIDEBAR
+\============================================================ */
+
+function toggleSidebar() {
+
+    sidebar.classList.toggle("open");
+
+}
+
+
+/* ============================================================
+   CHAT HISTORY
+\============================================================ */
+
+async function loadChatHistory() {
+
+    try {
+
+        const response =
+            await fetch("/api/chats");
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+            return;
+        }
+
+        renderChatList(data.chats);
+
+        /*
+           IMPORTANT:
+           Existing chat automatically open nahi hoga.
+           Startup par welcome screen visible rahegi.
+        */
+
+        if (!currentChatId) {
+
+            showWelcome();
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "History error:",
+            error
+        );
+
+    }
+
+}
+
+
+async function getChatList() {
+
+    try {
+
+        const response =
+            await fetch("/api/chats");
+
+        const data =
+            await response.json();
+
+        return data.chats || [];
+
+    } catch (error) {
+
+        return [];
+
+    }
+
+}
+
+
+function renderChatList(chats) {
+
+    chatList.innerHTML = "";
+
+    if (
+        !chats ||
+        !chats.length
+    ) {
+
+        chatList.innerHTML = `
+
+            <div class="empty-history">
+
+                <div class="empty-history-icon">
+                    💬
+                </div>
+
+                No previous chats
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    chats.forEach(
+        function (chat) {
+
+            const item =
+                document.createElement("div");
+
+            item.className =
+                "chat-history-item";
+
+            if (
+                chat.id === currentChatId
+            ) {
+
+                item.classList.add("active");
+
+            }
+
+            item.innerHTML = `
+
+                <button
+                    class="chat-history-main"
+                    onclick="openChat('${escapeAttribute(chat.id)}')">
+
+                    <span class="chat-history-icon">
+                        💬
+                    </span>
+
+                    <span class="chat-history-title">
+                        ${escapeHtml(
+                            chat.title ||
+                            "New Chat"
+                        )}
+                    </span>
+
+                </button>
+
+                <button
+                    class="delete-chat"
+                    onclick="deleteChat(event, '${escapeAttribute(chat.id)}')"
+                    title="Delete chat">
+
+                    ⋮
+
+                </button>
+
+            `;
+
+            chatList.appendChild(item);
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   CREATE CHAT
+\============================================================ */
+
+async function createNewChat() {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/chats",
+                {
+                    method: "POST"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+
+            alert(
+                "Could not create a new chat."
+            );
+
+            return;
+
+        }
+
+        currentChatId =
+            data.chat.id;
+
+        clearChatUI();
+
+        await loadChatHistory();
+
+        closeMobileSidebar();
+
+        input.focus();
+
+    } catch (error) {
+
+        console.error(
+            "Create chat error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   OPEN CHAT
+\============================================================ */
+
+async function openChat(chatId) {
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/chats/${encodeURIComponent(chatId)}`
+            );
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+            return;
+        }
+
+        currentChatId =
+            chatId;
+
+        renderMessages(
+            data.chat.messages || []
+        );
+
+        const chats =
+            await getChatList();
+
+        renderChatList(chats);
+
+        closeMobileSidebar();
+
+        input.focus();
+
+    } catch (error) {
+
+        console.error(
+            "Open chat error:",
+            error
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   RENDER MESSAGES
+\============================================================ */
+
+function renderMessages(messages) {
+
+    chatArea.innerHTML = "";
+
+    if (!messages.length) {
+
+        showWelcome();
+
+        return;
+
+    }
+
+    messages.forEach(
+        function (message) {
+
+            addMessage(
+                message.role === "user"
+                    ? "You"
+                    : "AI",
+                message.content,
+                false
+            );
+
+        }
+    );
+
+    scrollToBottom();
+
+}
+
+
+/* ============================================================
+   WELCOME
+\============================================================ */
+
+function showWelcome() {
+
+    chatArea.innerHTML = `
+
+        <div
+            class="welcome"
+            id="welcome">
+
+            <p class="welcome-prompt">
+                Ask me anything.
+            </p>
+
+            <div
+                class="suggestions"
+                id="suggestions">
+
+                <button
+                    class="suggestion-card"
+                    type="button"
+                    onclick="useSuggestion('What is Python?')">
+
+                    <span class="suggestion-icon">
+                        🐍
+                    </span>
+
+                    <span>
+                        What is Python?
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="suggestion-card"
+                    type="button"
+                    onclick="useSuggestion('Learn Networking')">
+
+                    <span class="suggestion-icon">
+                        🌐
+                    </span>
+
+                    <span>
+                        Learn Networking
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="suggestion-card"
+                    type="button"
+                    onclick="useSuggestion('Explain Computer Networks')">
+
+                    <span class="suggestion-icon">
+                        💻
+                    </span>
+
+                    <span>
+                        Explain Computer Networks
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="suggestion-card"
+                    type="button"
+                    onclick="useSuggestion('Help me with programming')">
+
+                    <span class="suggestion-icon">
+                        ⌨️
+                    </span>
+
+                    <span>
+                        Help me with programming
+                    </span>
+
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* ============================================================
+   ADD MESSAGE
+\============================================================ */
+
+function addMessage(
+    sender,
+    message,
+    shouldScroll = true
+) {
+
+    const wrapper =
+        document.createElement("div");
+
+    wrapper.className =
+        sender === "You"
+            ? "message user-message"
+            : "message ai-message";
+
+    wrapper.innerHTML = `
+
+        ${
+            sender === "AI"
+                ? `
+                    <div class="message-avatar">
+                        ✦
+                    </div>
+                  `
+                : ""
+        }
+
+        <div class="message-content">
+
+            <div class="message-name">
+                ${sender}
+            </div>
+
+            <div class="message-text">
+                ${formatMessage(message)}
+            </div>
+
+        </div>
+
+    `;
+
+    chatArea.appendChild(wrapper);
+
+    if (shouldScroll) {
+
+        scrollToBottom();
+
+    }
+
+}
+
+
+/* ============================================================
+   FORMAT MESSAGE
+\============================================================ */
+
+function formatMessage(text) {
+
+    let escaped =
+        escapeHtml(text || "");
+
+    const codeBlocks = [];
+
+    escaped =
+        escaped.replace(
+            /```[^\n]*\n?([\s\S]*?)```/g,
+            function (
+                match,
+                code
+            ) {
+
+                const index =
+                    codeBlocks.length;
+
+                codeBlocks.push(
+                    `<pre><code>${code.trimEnd()}</code></pre>`
+
+            );
+
+            return `___CODE_BLOCK_${index}___`;
+
+        }
+    );
+
+escaped =
+    escaped.replace(
+        /\n/g,
+        "<br>"
+    );
+
+codeBlocks.forEach(
+    function (
+        block,
+        index
+    ) {
+
+        escaped =
+            escaped.replace(
+                `___CODE_BLOCK_${index}___`,
+                block
+            );
+
+    }
+);
+
+return escaped;
+
+}
+/* ============================================================
+ESCAPE HTML
+\============================================================ */
+function escapeHtml(text) {
+
+const div =
+    document.createElement("div");
+
+div.textContent =
+    String(text);
+
+return div.innerHTML;
+
+}
+function escapeAttribute(text) {
+
+return String(text)
+    .replace(
+        /\\/g,
+        "\\\\"
+    )
+    .replace(
+        /'/g,
+        "\\'"
+    );
+
+}
+/* ============================================================
+SEND MESSAGE
+\============================================================ */
+async function sendMessage() {
+
+if (isLoading) {
+    return;
+}
+
+const message =
+    input.value.trim();
+
+if (!message) {
+    return;
+}
+
+if (
+    isRecording &&
+    recognition
+) {
+
+    recognition.stop();
+
+}
+
+if (!currentChatId) {
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/chats",
+                {
+                    method: "POST"
+                }
+            );
+
+        const data =
+            await response.json();
+
+        if (!data.success) {
+            return;
+        }
+
+        currentChatId =
+            data.chat.id;
+
+    } catch (error) {
+
+        console.error(
+            "Create chat error:",
+            error
+        );
+
+        return;
+
+    }
+
+}
+
+const welcome =
+    document.querySelector(".welcome");
+
+if (welcome) {
+    welcome.remove();
+}
+
+addMessage(
+    "You",
+    message
+);
+
+input.value = "";
+
+autoResize();
+
+isLoading = true;
+
+sendButton.disabled = true;
+
+if (recognition) {
+    micButton.disabled = true;
+}
+
+showTyping();
+
+try {
+
+    const response =
+        await fetch(
+            "/chat",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    message:
+                        message,
+
+                    chat_id:
+                        currentChatId
+
+                })
+
+            }
+        );
+
+    const data =
+        await response.json();
+
+    removeTyping();
+
+    if (!response.ok) {
+
+        addMessage(
+            "AI",
+            data.error ||
+            data.reply ||
+            "Something went wrong."
+        );
+
+    } else {
+
+        addMessage(
+            "AI",
+            data.reply ||
+            "Sorry, I couldn't generate a response."
+        );
+
+        if (data.chat_id) {
+
+            currentChatId =
+                data.chat_id;
+
+        }
+
+        await loadChatHistory();
+
+    }
+
+} catch (error) {
+
+    console.error(
+        "Chat error:",
+        error
+    );
+
+    removeTyping();
+
+    addMessage(
+        "AI",
+        "⚠️ I couldn't connect to the server. Please try again."
+    );
+
+}
+
+isLoading = false;
+
+sendButton.disabled = false;
+
+if (recognition) {
+    micButton.disabled = false;
+}
+
+input.focus();
+
+}
+/* ============================================================
+TYPING
+\============================================================ */
+function showTyping() {
+
+const typing =
+    document.createElement("div");
+
+typing.id =
+    "typingIndicator";
+
+typing.className =
+    "message ai-message";
+
+typing.innerHTML = `
+
+    <div class="message-avatar">
+        ✦
+    </div>
+
+    <div class="message-content">
+
+        <div class="message-name">
+            AI
+        </div>
+
+        <div class="typing">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </div>
+
+    </div>
+
+`;
+
+chatArea.appendChild(typing);
+
+scrollToBottom();
+
+}
+function removeTyping() {
+
+const typing =
+    document.getElementById(
+        "typingIndicator"
+    );
+
+if (typing) {
+    typing.remove();
+}
+
+}
+/* ============================================================
+VOICE INPUT
+\============================================================ */
+function setupVoiceRecognition() {
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+if (!SpeechRecognition) {
+
+    recognition = null;
+
+    micButton.disabled = true;
+
+    micButton.title =
+        "Voice input is not supported in this browser.";
+
+    return;
+
+}
+
+recognition =
+    new SpeechRecognition();
+
+recognition.continuous =
+    false;
+
+recognition.interimResults =
+    true;
+
+recognition.maxAlternatives =
+    1;
+
+
+recognition.onstart =
+    function () {
+
+        isRecording = true;
+
+        micButton.classList.add(
+            "recording"
+        );
+
+        micButton.setAttribute(
+            "aria-label",
+            "Stop recording"
+        );
+
+        micButton.title =
+            "Stop recording";
+
+    };
+
+
+recognition.onresult =
+    function (event) {
+
+        let transcript = "";
+
+        for (
+            let i = 0;
+            i < event.results.length;
+            i++
+        ) {
+
+            transcript +=
+                event.results[i][0]
+                    .transcript;
+
+        }
+
+        input.value =
+            transcript.trim();
+
+        autoResize();
+
+    };
+
+
+recognition.onend =
+    function () {
+
+        isRecording = false;
+
+        micButton.classList.remove(
+            "recording"
+        );
+
+        micButton.setAttribute(
+            "aria-label",
+            "Voice input"
+        );
+
+        micButton.title =
+            "Voice input";
+
+    };
+
+
+recognition.onerror =
+    function (event) {
+
+        console.warn(
+            "Speech recognition:",
+            event.error
+        );
+
+        isRecording = false;
+
+        micButton.classList.remove(
+            "recording"
+        );
+
+        if (
+            event.error ===
+            "not-allowed"
+        ) {
+
+            alert(
+                "Microphone permission allow karein."
+            );
+
+        }
+
+    };
+
+}
+/* ============================================================
+VOICE INPUT LANGUAGE
+\============================================================ */
+function detectSpeechInputLanguage() {
+
+const text =
+    input.value
+        .trim()
+        .toLowerCase();
+
+if (
+    /[\u0600-\u06FF]/.test(text)
+) {
+
+    return "ur-PK";
+
+}
+
+const romanUrduWords = [
+
+    "mujhe",
+    "mujhy",
+    "aap",
+    "apko",
+    "aapko",
+    "kya",
+    "hai",
+    "hain",
+    "kaise",
+    "kyun",
+    "kyunke",
+    "mera",
+    "meri",
+    "mere",
+    "batao",
+    "samjhao",
+    "karna",
+    "karo",
+    "krna",
+    "acha",
+    "theek",
+    "nahi",
+    "nahin",
+    "chahiye"
+
+];
+
+const words =
+    text.split(/\s+/);
+
+const romanUrduDetected =
+    romanUrduWords.some(
+        function (word) {
+
+            return words.includes(
+                word
+            );
+
+        }
+    );
+
+if (romanUrduDetected) {
+
+    return "ur-PK";
+
+}
+
+return "en-US";
+
+}
+/* ============================================================
+START / STOP VOICE
+\============================================================ */
+function toggleVoiceInput() {
+
+if (!recognition) {
+
+    alert(
+        "Is browser mein voice input supported nahi hai."
+    );
+
+    return;
+
+}
+
+if (isRecording) {
+
+    recognition.stop();
+
+    return;
+
+}
+
+try {
+
+    recognition.lang =
+        detectSpeechInputLanguage();
+
+    recognition.start();
+
+} catch (error) {
+
+    console.warn(
+        "Voice start error:",
+        error
+    );
+
+}
+
+}
+/* ============================================================
+DELETE CHAT
+\============================================================ */
+async function deleteChat(
+event,
+chatId
+) {
+
+event.stopPropagation();
+
+const confirmed =
+    confirm(
+        "Delete this chat?"
+    );
+
+if (!confirmed) {
+    return;
+}
+
+try {
+
+    const response =
+        await fetch(
+            `/api/chats/${encodeURIComponent(chatId)}`,
+            {
+                method: "DELETE"
+            }
+        );
+
+    const data =
+        await response.json();
+
+    if (!data.success) {
+        return;
+    }
+
+    if (
+        currentChatId === chatId
+    ) {
+
+        currentChatId =
+            null;
+
+        clearChatUI();
+
+    }
+
+    await loadChatHistory();
+
+} catch (error) {
+
+    console.error(
+        "Delete chat error:",
+        error
+    );
+
+}
+
+}
+/* ============================================================
+CLEAR ALL HISTORY
+\============================================================ */
+async function clearAllHistory() {
+
+const confirmed =
+    confirm(
+        "Delete all your chat history?"
+    );
+
+if (!confirmed) {
+    return;
+}
+
+try {
+
+    const response =
+        await fetch(
+            "/api/chats",
+            {
+                method: "DELETE"
+            }
+        );
+
+    const data =
+        await response.json();
+
+    if (data.success) {
+
+        currentChatId =
+            null;
+
+        clearChatUI();
+
+        await loadChatHistory();
+
+    }
+
+} catch (error) {
+
+    console.error(
+        "Clear history error:",
+        error
+    );
+
+}
+
+}
+/* ============================================================
+CLEAR UI
+\============================================================ */
+function clearChatUI() {
+
+showWelcome();
+
+}
+/* ============================================================
+SUGGESTIONS
+\============================================================ */
+function useSuggestion(text) {
+
+input.value =
+    text;
+
+autoResize();
+
+input.focus();
+
+}
+/* ============================================================
+ENTER TO SEND
+\============================================================ */
+input.addEventListener(
+"keydown",
+function (event) {
+
+    if (
+        event.key === "Enter" &&
+        !event.shiftKey
+    ) {
+
+        event.preventDefault();
+
+        sendMessage();
+
+    }
+
+}
+
+);
+/* ============================================================
+AUTO RESIZE
+\============================================================ */
+input.addEventListener(
+"input",
+autoResize
+);
+function autoResize() {
+
+input.style.height =
+    "auto";
+
+input.style.height =
+    Math.min(
+        input.scrollHeight,
+        150
+    ) + "px";
+
+}
+/* ============================================================
+SCROLL
+\============================================================ */
+function scrollToBottom() {
+
+chatArea.scrollTop =
+    chatArea.scrollHeight;
+
+}
+/* ============================================================
+MOBILE SIDEBAR
+\============================================================ */
+function closeMobileSidebar() {
+
+if (
+    window.innerWidth <= 800
+) {
+
+    sidebar.classList.remove(
+        "open"
+    );
+
+}
+
+}
+</script>
+</body>
+</html>
